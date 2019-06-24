@@ -1,15 +1,20 @@
 const express = require('express');
 const app = express();
-const path = require("path");
+const path = require('path');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer();
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const port = process.env.PORT || 8080;
 
 //DB
-const pgp = require('pg-promise')(/* options */);
+const promise = require('bluebird');
+const initOptions = {
+	promiseLib: promise // overriding the default (ES6 Promise);
+};
+const pgp = require('pg-promise')(initOptions);
 const db = pgp('postgres://todouser:abc123!@localhost:5432/tododb');
-
 
 //ROUTES
 const loginRoute = require('./routes/login.js');
@@ -24,6 +29,14 @@ app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
+app.use(cookieParser());
+
+//SESSION
+app.use(session({
+	secret: 'Shh, its a secret!',
+	saveUninitialized: 'true',
+	resave: 'true'
+}));
 
 //STATIC ROUTES
 //app.use(express.static('public_files'));
@@ -36,19 +49,37 @@ app.use('/homepage', homepageRoute);
 app.use('/moshi', moshiRoute);
 
 app.get('/test', function (req, res) {
-	try {
-		const data = db.any('SELECT * FROM playground WHERE equip_id = $1', 1);
-		// success
-		console.log(data+' SOME DATA');
-		res.send(data);
-	}
-	catch (e) {
-		// error
-		console.log(e);
-	}
+	db.any('SELECT * FROM playground where color = $1', ['blue'])
+		.then(function (data) {
+			// success;
+			console.log('DATA:', data);
+			res.send(data);
+		})
+		.catch(function (error) {
+			// error;
+			console.log('ERROR:', error);
+		})
+		.finally(db.$pool.end);
+
 	//db.$pool.end();
 	//pgp.end();
 	//res.send(data);
- });
+});
+
+//Testing cookie
+app.get('/cookie', function (req, res) {
+	res.cookie('name', 'express').send('cookie set'); //Sets name = express
+});
+
+//Testing session and cookie
+app.get('/session', function (req, res) {
+	if (req.session.page_views) {
+		req.session.page_views++;
+		res.send('You visited this page ' + req.session.page_views + ' times');
+	} else {
+		req.session.page_views = 1;
+		res.send('Welcome to this page for the first time!');
+	}
+});
 
 app.listen(port, () => console.log(`Listening in port ${port}`));
