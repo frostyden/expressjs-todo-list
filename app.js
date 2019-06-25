@@ -17,9 +17,10 @@ const pgp = require('pg-promise')(initOptions);
 const db = pgp('postgres://todouser:abc123!@localhost:5432/tododb');
 
 //ROUTES
-const loginRoute = require('./routes/login.js');
-const homepageRoute = require('./routes/homepage.js');
-const moshiRoute = require('./routes/moshi.js');
+//const loginRoute = require('./routes/login.js');
+//const homepageRoute = require('./routes/homepage.js');
+//const moshiRoute = require('./routes/moshi.js');
+const routes = require('./routes.js');
 
 //PUG
 app.set('view engine', 'pug');
@@ -44,9 +45,9 @@ app.use(session({
 app.use('/file', express.static(path.join(__dirname, 'public_files')));
 
 //ROUTE USERS
-app.use('/login', loginRoute);
-app.use('/homepage', homepageRoute);
-app.use('/moshi', moshiRoute);
+app.use('/login', routes.loginRoute);
+app.use('/homepage', routes.homepageRoute);
+app.use('/moshi', routes.moshiRoute);
 
 app.get('/test', function (req, res) {
 	db.any('SELECT * FROM playground where color = $1', ['blue'])
@@ -67,9 +68,9 @@ app.get('/test', function (req, res) {
 });
 
 //Testing cookie
-app.get('/cookie', function (req, res) {
-	res.cookie('name', 'express').send('cookie set'); //Sets name = express
-});
+// app.get('/cookie', function (req, res) {
+// 	res.cookie('name', 'express').send('cookie set'); //Sets name = express
+// });
 
 //Testing session and cookie
 app.get('/session', function (req, res) {
