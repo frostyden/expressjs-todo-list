@@ -5,16 +5,17 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer();
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+//const session = require('express-session');
 const port = process.env.PORT || 8080;
 
-//DB
-const promise = require('bluebird');
-const initOptions = {
-	promiseLib: promise // overriding the default (ES6 Promise);
-};
-const pgp = require('pg-promise')(initOptions);
-const db = pgp('postgres://todouser:abc123!@localhost:5432/tododb');
+// DB
+// const promise = require('bluebird');
+// const initOptions = {
+// 	promiseLib: promise // overriding the default (ES6 Promise);
+// };
+// const pgp = require('pg-promise')(initOptions);
+// const db = pgp('postgres://todouser:abc123!@localhost:5432/tododb');
+//const dbRequire = require('./config/db.js');
 
 //ROUTES
 //const loginRoute = require('./routes/login.js');
@@ -33,11 +34,11 @@ app.use(upload.array());
 app.use(cookieParser());
 
 //SESSION
-app.use(session({
-	secret: 'Shh, its a secret!',
-	saveUninitialized: 'true',
-	resave: 'true'
-}));
+// app.use(session({
+// 	secret: 'Shh, its a secret!',
+// 	saveUninitialized: 'true',
+// 	resave: 'true'
+// }));
 
 //STATIC ROUTES
 //app.use(express.static('public_files'));
@@ -48,24 +49,24 @@ app.use('/file', express.static(path.join(__dirname, 'public_files')));
 app.use('/login', routes.loginRoute);
 app.use('/homepage', routes.homepageRoute);
 app.use('/moshi', routes.moshiRoute);
+/**
+// app.get('/test', function (req, res) {
+// 	dbRequire.db.any('SELECT * FROM tdlist_user where u_id = $1', 0)
+// 		.then(function (data) {
+// 			// success;
+// 			console.log('DATA:', data);
+// 			res.send(data);
+// 		})
+// 		.catch(function (error) {
+// 			// error;
+// 			console.log('ERROR:', error);
+// 		})
+// 		.finally(db.$pool.end);
 
-app.get('/test', function (req, res) {
-	db.any('SELECT * FROM playground where color = $1', ['blue'])
-		.then(function (data) {
-			// success;
-			console.log('DATA:', data);
-			res.send(data);
-		})
-		.catch(function (error) {
-			// error;
-			console.log('ERROR:', error);
-		})
-		.finally(db.$pool.end);
-
-	//db.$pool.end();
-	//pgp.end();
-	//res.send(data);
-});
+// 	//db.$pool.end();
+// 	//pgp.end();
+// 	//res.send(data);
+// });
 
 //Testing cookie
 // app.get('/cookie', function (req, res) {
@@ -73,14 +74,14 @@ app.get('/test', function (req, res) {
 // });
 
 //Testing session and cookie
-app.get('/session', function (req, res) {
-	if (req.session.page_views) {
-		req.session.page_views++;
-		res.send('You visited this page ' + req.session.page_views + ' times');
-	} else {
-		req.session.page_views = 1;
-		res.send('Welcome to this page for the first time!');
-	}
-});
-
+// app.get('/session', function (req, res) {
+// 	if (req.session.page_views) {
+// 		req.session.page_views++;
+// 		res.send('You visited this page ' + req.session.page_views + ' times');
+// 	} else {
+// 		req.session.page_views = 1;
+// 		res.send('Welcome to this page for the first time!');
+// 	}
+// });
+**/
 app.listen(port, () => console.log(`Listening in port ${port}`));
