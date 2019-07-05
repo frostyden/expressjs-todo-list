@@ -1,12 +1,17 @@
 //DB
-const promise = require('bluebird');
-const initOptions = {
-	promiseLib: promise // overriding the default (ES6 Promise);
-};
-const pgp = require('pg-promise')(initOptions);
-const db = pgp('postgres://todouser:abc123!@localhost:5432/tododb');
+const knex = require('knex')({
+	client: 'pg',
+	connection: {
+		host: '127.0.0.1',
+		user: 'todouser',
+		port: 5432,
+		password: 'abc123!',
+		database: 'tododb'
+	},
+	pool: {
+		min: 0,
+		max: 1
+	}
+});
 
-module.exports = {
-	pgp,
-	db
-};
+module.exports = knex;

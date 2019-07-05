@@ -28,7 +28,7 @@ ES5 and ES6
 * [ExpressJS](https://expressjs.com/en/4x/api.html) - The web framework
 * [PostreSQL](https://www.postgresql.org/docs/) - DBMS
 * [Pug](https://pugjs.org/api/getting-started.html) - The template engine
-* [Promises/A+](http://vitaly-t.github.io/pg-promise) - An interface for PostgreSQL database
+* [Knex.js](https://knexjs.org) - The SQL query builder
 
 ## Contributing
 
