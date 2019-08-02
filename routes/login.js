@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const pg = require('../config/db.js');
 
-// All routes begin with /login/...
+// All routes begin with /api/login/
 router.get('/', (req, res) => {
 	res.render('login');
 });
@@ -25,7 +25,10 @@ router.post('/', (req, res) => {
 					console.log('DATA:', data[0].password);
 					res.status(400).send('Password is wrong.'); // Bad request for now
 				} else {
-					res.status(200).send('Logged in.'); // Success
+					//res.status(200).send('Logged in.'); // Success
+					//console.log('DATA:', data[0]);
+					res.redirect(307, `homepage/${data[0].uid}`);
+					//next();
 				}
 			})
 			.catch(error => {
@@ -34,6 +37,8 @@ router.post('/', (req, res) => {
 			});
 	}
 });
+
+// router.get()
 
 
 module.exports = router;
