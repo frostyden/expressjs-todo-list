@@ -6,6 +6,7 @@ const multer = require('multer');
 const upload = multer();
 const cookieParser = require('cookie-parser');
 //const session = require('express-session');
+//const jwt = require('jsonwebtoken');
 const routes = require('./routes.js');
 const port = process.env.PORT || 8080;
 
@@ -23,10 +24,10 @@ app.use(upload.array());
 app.use(cookieParser());
 
 //ROUTE USERS
-app.use('/login', routes.loginRoute);
-app.use('/homepage', routes.homepageRoute);
-app.use('/moshi', routes.moshiRoute);
-app.use('/registration', routes.sigInRoute);
+app.use('/api/login', routes.loginRoute);
+app.use('/api/homepage', routes.homepageRoute);
+app.use('/api/moshi', routes.moshiRoute);
+app.use('/api/registration', routes.sigInRoute);
 //SESSION
 // app.use(session({
 // 	secret: 'Shh, its a secret!',
@@ -39,6 +40,13 @@ app.use('/registration', routes.sigInRoute);
 //app.use('/file', express.static('public_files'));
 app.use('/file', express.static(path.join(__dirname, 'public_files')));
 
+
+//Testing JSONWEBOKEN
+app.get('/api', (req, res) => {
+	res.json({
+		message: 'Welcome to API.'
+	});
+});
 
 //Testing cookie
 // app.get('/cookie', function (req, res) {

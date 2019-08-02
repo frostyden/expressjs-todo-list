@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const pg = require('../config/db.js');
 
-// All routes begin with /registration/...
+// All routes begin with /api/registration/...
 router.get('/', (req, res) => {
 	res.render('registration');
 });
