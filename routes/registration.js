@@ -4,7 +4,7 @@ const router = express.Router();
 const pg = require('../config/db.js');
 
 // All routes begin with /api/registration/...
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { // NOTE: Remove all pug renders from api
 	res.render('registration');
 });
 

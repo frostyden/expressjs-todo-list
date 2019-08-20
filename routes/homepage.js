@@ -5,9 +5,9 @@ const pg = require('../config/db.js');
 
 // URL /api/homepage/...
 
-// router.get('/', (req, res) => {
-// 	res.send('homepage');
-// });
+router.get('/', (req, res) => { // NOTE: Remove all pug renders from api
+	res.send('homepage');
+});
 
 router.get('/:id', (req, res) => {
 	pg.select('status', 'description')

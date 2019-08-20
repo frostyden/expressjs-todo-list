@@ -11,8 +11,6 @@ const routes = require('./routes.js');
 const port = process.env.PORT || 8080;
 
 
-
-
 //PUG
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -24,13 +22,13 @@ app.use(upload.array());
 app.use(cookieParser());
 
 //ROUTE USERS
-app.use('/api/login', routes.loginRoute);
-app.use('/api/homepage', routes.homepageRoute);
-app.use('/api/moshi', routes.moshiRoute);
-app.use('/api/registration', routes.sigInRoute);
+app.use('/login', routes.loginRoute);
+app.use('/homepage', routes.homepageRoute);
+// app.use('/api/moshi', routes.moshiRoute);
+app.use('/registration', routes.sigInRoute);
 //SESSION
 // app.use(session({
-// 	secret: 'Shh, its a secret!',
+// 	secret: 'A secret txt',
 // 	saveUninitialized: 'true',
 // 	resave: 'true'
 // }));
